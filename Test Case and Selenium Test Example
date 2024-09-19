@@ -1,12 +1,20 @@
 Test case example:
 Step 1:
-Validate wether products in Page 1 are showing in Page 2
+Verify that the search functionality in home page is working
 Step 2:
+Validate wether products in Page 1 are showing in Page 2
+Step 3:
 Verify if prices decreases on discount
+Step 4:
+Verify if sum of products in checkout page matches with Total Amount
 
 Test below :
 
+#implicit wait -
+#explicit wait
+#pause the test for a few seconds using Time Class
 import time
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
@@ -48,3 +56,13 @@ discountAmount = driver.find_element(By.CSS_SELECTOR, ".discountAmt").text
 assert float(discountAmount) < int(originalAmount)
 
 print(driver.find_element(By.CSS_SELECTOR, ".promoInfo").text)
+
+amounts = driver.find_elements(By.XPATH, "//tr/td[5]/p")
+sum = 0
+for amount in amounts:
+    sum = sum + int(amount.text)   #sum value 32+48+60
+
+print(sum)
+
+totalAmount = int(driver.find_element(By.CLASS_NAME, "totAmt").text)
+assert sum == totalAmount
